@@ -1,9 +1,16 @@
 // True for Draggable Drawing, false for click drawing
 var useDraggableDraw = true;
 
+// Draggable Drawing only : Use left click to draw. If true, moving the map will be impossible.
+// If false, right click will be used.
+var useLeftClick = false;
+
+// Customization options for the Stroke/Line
 var lineStrokeColor = "#FF0000";
 var lineStrokeOpacity = 1;
 var lineStrokeWeight = 2;
+
+//Customization options for the Polygon/Area
 var polygonStrokeColor = "#FF0000";
 var polygonStrokeOpacity = 0.8;
 var polygonStrokeWeight = 2;
@@ -23,11 +30,17 @@ function initMap() {
     initClickableDraw(map);
   }
   else {
-    map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 12,
-      center: position,
-      draggable:false
-    });
+    if (useLeftClick)
+      map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 12,
+        center: position,
+        draggable:false
+      });
+    else
+      map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 12,
+        center: position
+      });
     google.maps.event.addDomListener(window, 'load', initDraggableDraw);
   }
 }
@@ -73,8 +86,9 @@ function initClickableDraw() {
       var isDoneDrawing = false;
       var finishedPolygon = null;
       google.maps.event.addDomListener(map.getDiv(),'mousedown',function(e){
-        // Left click only (right click = 2)
-        if(e.button != 0)
+        if(useLeftClick && e.button != 0)
+          return;
+        else if (!useLeftClick && e.button != 2)
           return;
         if (isDoneDrawing)
           finishedPolygon.setMap(null);

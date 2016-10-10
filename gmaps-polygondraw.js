@@ -33,7 +33,8 @@ function initMap() {
   if (!useDraggableDraw) {
     map = new google.maps.Map(document.getElementById('map'), {
       zoom: 12,
-      center: position
+      center: position,
+      clickableIcons: false
     });
     initClickableDraw(map);
     if (showRemovePointButton) {

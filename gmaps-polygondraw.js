@@ -86,7 +86,6 @@ function clearMarkers(controlDiv, map) {
         controlText.innerHTML = removePointsButtonLabel;
         controlUI.appendChild(controlText);
 
-        // Setup the click event listeners: simply set the map to Chicago.
         controlUI.addEventListener('click', function() {
           deleteMarkers();
           clickableDrawPolygon.setMap(null);
